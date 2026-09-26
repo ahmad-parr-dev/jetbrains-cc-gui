@@ -1,0 +1,185 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <!-- ══════════ Sovereign dark palette ══════════
+       bg #18181b · accent #0284c7 · borders #27272a -->
+
+  <Style Selector="Window">
+    <Setter Property="Background" Value="#18181B" />
+    <Setter Property="Foreground" Value="#F4F4F5" />
+  </Style>
+
+  <Style Selector="TextBlock.keylabel">
+    <Setter Property="Foreground" Value="#71717A" />
+    <Setter Property="FontSize" Value="11" />
+    <Setter Property="FontWeight" Value="SemiBold" />
+  </Style>
+
+  <!-- ── Badges ────────────────────────────────── -->
+  <Style Selector="Border.badge">
+    <Setter Property="Background" Value="#27272A" />
+    <Setter Property="CornerRadius" Value="12" />
+    <Setter Property="Padding" Value="10,4" />
+  </Style>
+  <Style Selector="Border.badge TextBlock">
+    <Setter Property="Foreground" Value="#D4D4D8" />
+    <Setter Property="FontSize" Value="12" />
+  </Style>
+  <Style Selector="Border.badge-accent">
+    <Setter Property="Background" Value="#0C2A3F" />
+    <Setter Property="BorderBrush" Value="#0284C7" />
+    <Setter Property="BorderThickness" Value="1" />
+    <Setter Property="CornerRadius" Value="12" />
+    <Setter Property="Padding" Value="10,4" />
+  </Style>
+  <Style Selector="Border.badge-accent TextBlock">
+    <Setter Property="Foreground" Value="#7DD3FC" />
+    <Setter Property="FontSize" Value="12" />
+    <Setter Property="FontWeight" Value="SemiBold" />
+  </Style>
+
+  <!-- ── Buttons ───────────────────────────────── -->
+  <Style Selector="Button">
+    <Setter Property="Background" Value="#27272A" />
+    <Setter Property="Foreground" Value="#F4F4F5" />
+    <Setter Property="BorderThickness" Value="0" />
+    <Setter Property="CornerRadius" Value="6" />
+    <Setter Property="Padding" Value="12,7" />
+    <Setter Property="FontSize" Value="13" />
+  </Style>
+  <Style Selector="Button:pointerover /template/ ContentPresenter">
+    <Setter Property="Background" Value="#3F3F46" />
+  </Style>
+  <Style Selector="Button:pressed /template/ ContentPresenter">
+    <Setter Property="Background" Value="#52525B" />
+  </Style>
+  <Style Selector="Button.primary">
+    <Setter Property="Background" Value="#0284C7" />
+    <Setter Property="Foreground" Value="#FFFFFF" />
+    <Setter Property="FontWeight" Value="SemiBold" />
+  </Style>
+  <Style Selector="Button.primary:pointerover /template/ ContentPresenter">
+    <Setter Property="Background" Value="#0369A1" />
+  </Style>
+  <Style Selector="Button.primary:pressed /template/ ContentPresenter">
+    <Setter Property="Background" Value="#075985" />
+  </Style>
+  <Style Selector="Button.icon">
+    <Setter Property="Background" Value="Transparent" />
+    <Setter Property="Padding" Value="8,6" />
+    <Setter Property="FontSize" Value="15" />
+    <Setter Property="CornerRadius" Value="6" />
+  </Style>
+  <Style Selector="Button.icon:pointerover /template/ ContentPresenter">
+    <Setter Property="Background" Value="#27272A" />
+  </Style>
+
+  <!-- ── TextBox (rounded prompt input) ──────────── -->
+  <Style Selector="TextBox">
+    <Setter Property="Background" Value="#1E1E22" />
+    <Setter Property="BorderBrush" Value="#27272A" />
+    <Setter Property="Foreground" Value="#F4F4F5" />
+    <Setter Property="CaretBrush" Value="#0284C7" />
+    <Setter Property="SelectionBrush" Value="#0284C7" />
+    <Setter Property="CornerRadius" Value="8" />
+    <Setter Property="Padding" Value="12,10" />
+    <Setter Property="FontSize" Value="13" />
+  </Style>
+  <Style Selector="TextBox:focus /template/ Border#PART_BorderElement">
+    <Setter Property="BorderBrush" Value="#0284C7" />
+  </Style>
+  <Style Selector="TextBox /template/ TextBlock#PART_Watermark">
+    <Setter Property="Foreground" Value="#52525B" />
+  </Style>
+
+  <!-- ── ComboBox ──────────────────────────────── -->
+  <Style Selector="ComboBox">
+    <Setter Property="Background" Value="#1E1E22" />
+    <Setter Property="BorderBrush" Value="#27272A" />
+    <Setter Property="Foreground" Value="#F4F4F5" />
+    <Setter Property="CornerRadius" Value="6" />
+    <Setter Property="Padding" Value="10,6" />
+    <Setter Property="FontSize" Value="13" />
+  </Style>
+  <Style Selector="ComboBox:pointerover /template/ Border#Background">
+    <Setter Property="Background" Value="#27272A" />
+  </Style>
+
+  <!-- ── Scrollbars ────────────────────────────── -->
+  <Style Selector="ScrollBar:vertical">
+    <Setter Property="Width" Value="10" />
+    <Setter Property="Background" Value="Transparent" />
+  </Style>
+  <Style Selector="ScrollBar:horizontal">
+    <Setter Property="Height" Value="10" />
+    <Setter Property="Background" Value="Transparent" />
+  </Style>
+  <Style Selector="Thumb">
+    <Setter Property="Background" Value="#3F3F46" />
+    <Setter Property="CornerRadius" Value="5" />
+  </Style>
+  <Style Selector="Thumb:pointerover">
+    <Setter Property="Background" Value="#52525B" />
+  </Style>
+
+  <!-- ── DataGrid (file explorer) ──────────────── -->
+  <Style Selector="DataGrid">
+    <Setter Property="Background" Value="Transparent" />
+    <Setter Property="BorderThickness" Value="0" />
+    <Setter Property="Foreground" Value="#E4E4E7" />
+    <Setter Property="RowBackground" Value="Transparent" />
+    <Setter Property="GridLinesVisibility" Value="Horizontal" />
+    <Setter Property="HorizontalGridLinesBrush" Value="#27272A" />
+    <Setter Property="FontSize" Value="12" />
+  </Style>
+  <Style Selector="DataGridColumnHeader">
+    <Setter Property="Background" Value="#1E1E22" />
+    <Setter Property="Foreground" Value="#A1A1AA" />
+    <Setter Property="FontSize" Value="12" />
+    <Setter Property="FontWeight" Value="SemiBold" />
+    <Setter Property="Padding" Value="12,8" />
+    <Setter Property="BorderBrush" Value="#27272A" />
+    <Setter Property="BorderThickness" Value="0,0,0,1" />
+    <Setter Property="SeparatorBrush" Value="#27272A" />
+  </Style>
+  <Style Selector="DataGridRow">
+    <Setter Property="Background" Value="Transparent" />
+  </Style>
+  <Style Selector="DataGridRow:pointerover /template/ Rectangle#BackgroundRectangle">
+    <Setter Property="Fill" Value="#1E1E22" />
+  </Style>
+  <Style Selector="DataGridRow:selected /template/ Rectangle#BackgroundRectangle">
+    <Setter Property="Fill" Value="#12324A" />
+  </Style>
+  <Style Selector="DataGridCell">
+    <Setter Property="Padding" Value="12,8" />
+    <Setter Property="Foreground" Value="#E4E4E7" />
+    <Setter Property="FontSize" Value="12" />
+    <Setter Property="Background" Value="Transparent" />
+  </Style>
+
+  <!-- ── Segmented mode control ────────────────── -->
+  <Style Selector="ListBox.segmented">
+    <Setter Property="Background" Value="#1E1E22" />
+    <Setter Property="BorderBrush" Value="#27272A" />
+    <Setter Property="BorderThickness" Value="1" />
+    <Setter Property="CornerRadius" Value="8" />
+    <Setter Property="Padding" Value="4" />
+  </Style>
+  <Style Selector="ListBox.segmented ListBoxItem">
+    <Setter Property="Background" Value="Transparent" />
+    <Setter Property="Foreground" Value="#A1A1AA" />
+    <Setter Property="CornerRadius" Value="6" />
+    <Setter Property="Padding" Value="14,8" />
+    <Setter Property="MinWidth" Value="104" />
+    <Setter Property="FontSize" Value="13" />
+    <Setter Property="FontWeight" Value="SemiBold" />
+    <Setter Property="HorizontalContentAlignment" Value="Center" />
+  </Style>
+  <Style Selector="ListBox.segmented ListBoxItem:pointerover /template/ ContentPresenter">
+    <Setter Property="Background" Value="#27272A" />
+  </Style>
+  <Style Selector="ListBox.segmented ListBoxItem:selected /template/ ContentPresenter">
+    <Setter Property="Background" Value="#0284C7" />
+    <Setter Property="TextBlock.Foreground" Value="#FFFFFF" />
+  </Style>
+</Styles>

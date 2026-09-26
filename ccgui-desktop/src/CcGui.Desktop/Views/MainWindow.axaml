@@ -1,0 +1,215 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:conv="clr-namespace:CcGui.Desktop.Converters"
+        x:Class="CcGui.Desktop.Views.MainWindow"
+        Title="CC GUI — Sovereign Desktop"
+        Width="1440" Height="900"
+        MinWidth="1024" MinHeight="640">
+
+  <Window.Resources>
+    <conv:SenderToAlignmentConverter x:Key="SenderAlign" />
+    <conv:SenderToBubbleBrushConverter x:Key="BubbleBrush" />
+    <conv:NullToBoolConverter x:Key="NotNullVisible" />
+    <conv:BoolToConnectionBrushConverter x:Key="ConnBrush" />
+  </Window.Resources>
+
+  <DockPanel>
+
+    <!-- ════ Top navigation bar ════ -->
+    <Border DockPanel.Dock="Top"
+            Background="#1E1E22" BorderBrush="#27272A" BorderThickness="0,0,0,1"
+            Padding="16,10">
+      <Grid ColumnDefinitions="Auto,*,Auto">
+        <StackPanel Grid.Column="0" Orientation="Horizontal" Spacing="12" VerticalAlignment="Center">
+          <Border Background="#0284C7" CornerRadius="6" Padding="10,5">
+            <TextBlock Text="CC" FontWeight="Bold" Foreground="#FFFFFF" FontSize="14" />
+          </Border>
+          <TextBlock Text="Sovereign Desktop GUI" FontSize="16" FontWeight="SemiBold"
+                     Foreground="#F4F4F5" VerticalAlignment="Center" />
+        </StackPanel>
+
+        <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="8"
+                    HorizontalAlignment="Center" VerticalAlignment="Center">
+          <Border Classes="badge-accent"><TextBlock Text="God Mode: Active" /></Border>
+          <Border Classes="badge"><TextBlock Text="AI1" /></Border>
+          <Border Classes="badge"><TextBlock Text="Claude Opus 3.5 / GPT-4o" /></Border>
+        </StackPanel>
+
+        <ComboBox Grid.Column="2" MinWidth="230" VerticalAlignment="Center"
+                  ItemsSource="{Binding EnvironmentProfiles}"
+                  SelectedItem="{Binding EnvironmentProfile}" />
+      </Grid>
+    </Border>
+
+    <!-- ════ Bottom status bar ════ -->
+    <Border DockPanel.Dock="Bottom"
+            Background="#1E1E22" BorderBrush="#27272A" BorderThickness="0,1,0,0"
+            Padding="16,7">
+      <Grid ColumnDefinitions="Auto,*,Auto,Auto">
+        <TextBlock Grid.Column="0" Text="{Binding EnvironmentProfile}"
+                   Foreground="#A1A1AA" FontSize="12" VerticalAlignment="Center" />
+        <TextBlock Grid.Column="2" Text="{Binding ProblemSummary}" Margin="0,0,16,0"
+                   Foreground="#A1A1AA" FontSize="12" VerticalAlignment="Center" />
+        <StackPanel Grid.Column="3" Orientation="Horizontal" Spacing="6" VerticalAlignment="Center">
+          <Ellipse Width="8" Height="8"
+                   Fill="{Binding IsConnected, Converter={StaticResource ConnBrush}}" />
+          <TextBlock Text="Connected" Foreground="#A1A1AA" FontSize="12" />
+        </StackPanel>
+      </Grid>
+    </Border>
+
+    <!-- ════ Dual-pane workspace ════ -->
+    <Grid ColumnDefinitions="7*,Auto,5*">
+
+      <!-- LEFT: repository & context explorer -->
+      <Border Grid.Column="0" Padding="16">
+        <DockPanel>
+          <StackPanel DockPanel.Dock="Top" Spacing="12">
+            <StackPanel Orientation="Horizontal" Spacing="8">
+              <TextBlock Text="brains-dev" Foreground="#A1A1AA" FontSize="13" />
+              <TextBlock Text="/" Foreground="#52525B" FontSize="13" />
+              <TextBlock Text="jetbrains-cc-gui" Foreground="#F4F4F5"
+                         FontWeight="SemiBold" FontSize="13" />
+            </StackPanel>
+            <Grid ColumnDefinitions="Auto,*,Auto">
+              <ComboBox Grid.Column="0" MinWidth="150"
+                        ItemsSource="{Binding Branches}"
+                        SelectedItem="{Binding Branch}" />
+              <StackPanel Grid.Column="2" Orientation="Horizontal" Spacing="8">
+                <Button Content="Go to file" />
+                <Button Content="Code" Classes="primary" />
+              </StackPanel>
+            </Grid>
+          </StackPanel>
+
+          <!-- Engine & plugin status card -->
+          <Border DockPanel.Dock="Bottom" Margin="0,12,0,0"
+                  Background="#1E1E22" BorderBrush="#27272A" BorderThickness="1"
+                  CornerRadius="8" Padding="14">
+            <StackPanel Spacing="10">
+              <TextBlock Text="Engine &amp; Plugin Overview" FontWeight="SemiBold"
+                         Foreground="#F4F4F5" FontSize="13" />
+              <Grid ColumnDefinitions="*,*">
+                <StackPanel Spacing="3">
+                  <TextBlock Text="Active Models" Classes="keylabel" />
+                  <TextBlock Text="Claude Opus 3.5 / GPT-4o" Foreground="#4ADE80" FontSize="12" />
+                </StackPanel>
+                <StackPanel Grid.Column="1" Spacing="3">
+                  <TextBlock Text="Local Runtime" Classes="keylabel" />
+                  <TextBlock Text="Encapsulated CLI Bridge Enabled" Foreground="#4ADE80" FontSize="12" />
+                </StackPanel>
+              </Grid>
+            </StackPanel>
+          </Border>
+
+          <!-- File table -->
+          <Border Margin="0,12,0,0" BorderBrush="#27272A" BorderThickness="1"
+                  CornerRadius="8" ClipToBounds="True">
+            <DataGrid ItemsSource="{Binding Files}"
+                      AutoGenerateColumns="False" IsReadOnly="True"
+                      HeadersVisibility="Column" GridLinesVisibility="Horizontal"
+                      SelectionMode="Single" Background="Transparent" BorderThickness="0">
+              <DataGrid.Columns>
+                <DataGridTextColumn Header="File / Directory" Binding="{Binding Name}" Width="*" />
+                <DataGridTextColumn Header="Commit Message" Binding="{Binding LastCommit}" Width="2*" />
+                <DataGridTextColumn Header="Updated" Binding="{Binding UpdatedAgo}" Width="120" />
+              </DataGrid.Columns>
+            </DataGrid>
+          </Border>
+        </DockPanel>
+      </Border>
+
+      <GridSplitter Grid.Column="1" Width="6" Background="Transparent" />
+
+      <!-- RIGHT: sovereign agent execution console -->
+      <Border Grid.Column="2" Background="#1C1C1F"
+              BorderBrush="#27272A" BorderThickness="1,0,0,0" Padding="16">
+        <DockPanel>
+
+          <!-- Console header -->
+          <Grid DockPanel.Dock="Top" ColumnDefinitions="Auto,*,Auto" Margin="0,0,0,12">
+            <StackPanel Orientation="Horizontal" Spacing="8" VerticalAlignment="Center">
+              <Border Classes="badge-accent"><TextBlock Text="CC GUI" /></Border>
+              <Border Classes="badge"><TextBlock Text="AI1" /></Border>
+            </StackPanel>
+            <StackPanel Grid.Column="2" Orientation="Horizontal" Spacing="4">
+              <Button Content="＋" Classes="icon" ToolTip.Tip="New session" />
+              <Button Content="⚙" Classes="icon" ToolTip.Tip="Settings" />
+            </StackPanel>
+          </Grid>
+
+          <!-- Prompt console (bottom) -->
+          <StackPanel DockPanel.Dock="Bottom" Spacing="8" Margin="0,12,0,0">
+            <Border Background="#0C2A3F" BorderBrush="#0284C7" BorderThickness="1"
+                    CornerRadius="8" Padding="12">
+              <StackPanel Spacing="2">
+                <TextBlock Text="Sovereign Encapsulated Mode" FontWeight="SemiBold"
+                           Foreground="#7DD3FC" FontSize="13" />
+                <TextBlock Text="This project is guaranteed to be 100% open source and free. Local prompt execution enabled."
+                           Foreground="#BAE6FD" FontSize="12" TextWrapping="Wrap" />
+              </StackPanel>
+            </Border>
+
+            <TextBlock Text="Use @reference files, #invoke agents, !insert prompts — Enter to send, Shift+Enter for newline"
+                       FontSize="11" Foreground="#71717A" />
+
+            <TextBox x:Name="PromptBox"
+                     Text="{Binding InputPrompt}"
+                     Watermark="@reference files, #invoke agents, !insert prompts"
+                     AcceptsReturn="True" TextWrapping="Wrap"
+                     MinHeight="72" MaxHeight="140"
+                     VerticalContentAlignment="Top" />
+
+            <Grid ColumnDefinitions="*,Auto">
+              <StackPanel Orientation="Horizontal" Spacing="2">
+                <Button Content="📎" Classes="icon" ToolTip.Tip="Attach file" />
+                <Button Content="🔒" Classes="icon" ToolTip.Tip="Encapsulated mode" />
+                <Button Content="📁" Classes="icon" ToolTip.Tip="Context folder" />
+                <Button Content="↗" Classes="icon" ToolTip.Tip="Share" />
+              </StackPanel>
+              <Button Grid.Column="1" Content="Send  ➤" Classes="primary"
+                      MinWidth="130" Command="{Binding SendPromptCommand}" />
+            </Grid>
+          </StackPanel>
+
+          <!-- Agent mode segmented control -->
+          <ListBox DockPanel.Dock="Top" Classes="segmented" Margin="0,0,0,12"
+                   ItemsSource="{Binding AgentModes}"
+                   SelectedItem="{Binding SelectedAgentMode}">
+            <ListBox.ItemsPanel>
+              <ItemsPanelTemplate>
+                <StackPanel Orientation="Horizontal" Spacing="4" />
+              </ItemsPanelTemplate>
+            </ListBox.ItemsPanel>
+          </ListBox>
+
+          <!-- Message stream -->
+          <ScrollViewer x:Name="ChatScroll"
+                        VerticalScrollBarVisibility="Auto"
+                        HorizontalScrollBarVisibility="Disabled">
+            <ItemsControl ItemsSource="{Binding Messages}" Margin="0,2">
+              <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                  <StackPanel Margin="0,6" MaxWidth="520"
+                              HorizontalAlignment="{Binding Sender, Converter={StaticResource SenderAlign}}">
+                    <TextBlock Text="{Binding TimestampLabel}" FontSize="11"
+                               Foreground="#71717A" Margin="6,0,6,2" />
+                    <Border Background="{Binding Sender, Converter={StaticResource BubbleBrush}}"
+                            CornerRadius="12" Padding="12,8">
+                      <TextBlock Text="{Binding Content}" Foreground="#FFFFFF"
+                                 TextWrapping="Wrap" FontSize="13" />
+                    </Border>
+                    <TextBlock Text="{Binding ExecutionTime}" FontSize="11"
+                               Foreground="#71717A" Margin="6,3,6,0"
+                               IsVisible="{Binding ExecutionTime, Converter={StaticResource NotNullVisible}}" />
+                  </StackPanel>
+                </DataTemplate>
+              </ItemsControl.ItemTemplate>
+            </ItemsControl>
+          </ScrollViewer>
+
+        </DockPanel>
+      </Border>
+    </Grid>
+  </DockPanel>
+</Window>
